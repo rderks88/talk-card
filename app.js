@@ -57,6 +57,7 @@
       intro_title: "Maak een persoonlijke TalkCard",
       intro_lead: "Een overzichtskaart met de belangrijkste dingen over je dierbare, zodat verzorgers, familie en bezoekers makkelijker een fijn, betekenisvol gesprek kunnen voeren met iemand met dementie of alzheimer.",
       tribute: "Gemaakt als eerbetoon aan mijn oom Will",
+      feedback: "Heb je feedback om dit voor anderen te verbeteren? Mail me op {email}.",
       intro_s1_t: "Beantwoord een paar vragen",
       intro_s1_d: "Naam, partner, kinderen, hobby's, werk… Vragen die niet passen sla je gewoon over.",
       intro_s2_t: "Voeg een foto toe",
@@ -121,6 +122,7 @@
       intro_title: "Make a personal TalkCard",
       intro_lead: "An overview card with the most important things about your loved one, so carers, family and visitors can more easily have a warm, meaningful conversation with someone living with dementia or Alzheimer's.",
       tribute: "Built in tribute to my uncle Will",
+      feedback: "If you have feedback to improve this for others, please email me at {email}.",
       intro_s1_t: "Answer a few questions",
       intro_s1_d: "Name, partner, children, hobbies, work… Just skip any question that doesn't fit.",
       intro_s2_t: "Add a photo",
@@ -185,6 +187,7 @@
       intro_title: "Erstellen Sie eine persönliche TalkCard",
       intro_lead: "Eine Übersichtskarte mit den wichtigsten Dingen über Ihren lieben Menschen, damit Pflegende, Familie und Besucher leichter ein schönes, bedeutungsvolles Gespräch mit jemandem mit Demenz oder Alzheimer führen können.",
       tribute: "Erstellt als Hommage an meinen Onkel Will",
+      feedback: "Haben Sie Anregungen, um dies für andere zu verbessern? Schreiben Sie mir an {email}.",
       intro_s1_t: "Beantworten Sie ein paar Fragen",
       intro_s1_d: "Name, Partner, Kinder, Hobbys, Beruf… Fragen, die nicht passen, überspringen Sie einfach.",
       intro_s2_t: "Fügen Sie ein Foto hinzu",
@@ -249,6 +252,7 @@
       intro_title: "Créez une TalkCard personnelle",
       intro_lead: "Une carte de synthèse reprenant l'essentiel sur votre proche, pour que les aidants, la famille et les visiteurs puissent plus facilement avoir une conversation chaleureuse et riche de sens avec une personne atteinte de démence ou d'Alzheimer.",
       tribute: "Créé en hommage à mon oncle Will",
+      feedback: "Vous avez des suggestions pour l'améliorer pour d'autres ? Écrivez-moi à {email}.",
       intro_s1_t: "Répondez à quelques questions",
       intro_s1_d: "Nom, partenaire, enfants, loisirs, travail… Passez simplement les questions qui ne conviennent pas.",
       intro_s2_t: "Ajoutez une photo",
@@ -433,6 +437,19 @@
     });
     document.querySelectorAll("[data-i18n-html]").forEach(function (node) {
       node.innerHTML = t(node.getAttribute("data-i18n-html"));
+    });
+    renderFeedback();
+  }
+
+  /* Fill [data-feedback] elements with the translated invite. The address is
+     assembled here (never written whole in the HTML/source) to deter scrapers. */
+  function renderFeedback() {
+    var nodes = document.querySelectorAll("[data-feedback]");
+    if (!nodes.length) return;
+    var addr = ["r.derks88", "gmail.com"].join("@");
+    var link = '<a href="mailto:' + addr + '?subject=TalkCard">' + addr + "</a>";
+    nodes.forEach(function (n) {
+      n.innerHTML = esc(t("feedback")).replace("{email}", function () { return link; });
     });
   }
 

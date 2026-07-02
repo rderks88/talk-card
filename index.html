@@ -157,6 +157,9 @@ body{
 .autosave{ text-align:center; color:#9aa0a6; font-size:12.5px; margin-top:18px; }
 .tribute{ text-align:center; color:var(--muted); font-size:13.5px; margin-top:30px; }
 .tribute__heart{ color:var(--orange); }
+.feedback{ text-align:center; color:var(--muted); font-size:13px; margin-top:8px; max-width:520px; margin-left:auto; margin-right:auto; }
+.feedback a{ color:var(--orange-dark); }
+.feedback a:hover{ text-decoration:underline; }
 
 /* ---------- Preview screen ---------- */
 .preview{ padding:22px 16px 60px; }
@@ -378,6 +381,7 @@ body{
         <button class="btn btn--primary btn--lg" id="btn-start" data-i18n="start">Beginnen</button>
         <p class="autosave" id="resume-note" style="display:none"><span data-i18n="resume_text">We hebben je eerdere antwoorden bewaard.</span> <a href="#" id="link-fresh" data-i18n="resume_link">Opnieuw beginnen</a></p>
         <p class="tribute"><span class="tribute__heart" aria-hidden="true">♥</span> <span data-i18n="tribute">Gemaakt als eerbetoon aan mijn oom Will</span></p>
+        <p class="feedback" data-feedback><!-- feedback invite injected by JS --></p>
       </div>
     </section>
 
