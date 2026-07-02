@@ -155,9 +155,11 @@ body{
 .wizard__nav .spacer{ flex:1; }
 
 .autosave{ text-align:center; color:#9aa0a6; font-size:12.5px; margin-top:18px; }
-.tribute{ text-align:center; color:var(--muted); font-size:13.5px; margin-top:30px; }
+/* shared footer on every screen */
+.app__foot{ border-top:1px solid var(--line); background:#fff; padding:22px 20px 26px; }
+.tribute{ text-align:center; color:var(--muted); font-size:13.5px; margin:0; }
 .tribute__heart{ color:var(--orange); }
-.feedback{ text-align:center; color:var(--muted); font-size:13px; margin-top:8px; max-width:520px; margin-left:auto; margin-right:auto; }
+.feedback{ text-align:center; color:var(--muted); font-size:13px; margin:6px auto 0; max-width:520px; }
 .feedback a{ color:var(--orange-dark); }
 .feedback a:hover{ text-decoration:underline; }
 
@@ -380,8 +382,6 @@ body{
         </ul>
         <button class="btn btn--primary btn--lg" id="btn-start" data-i18n="start">Beginnen</button>
         <p class="autosave" id="resume-note" style="display:none"><span data-i18n="resume_text">We hebben je eerdere antwoorden bewaard.</span> <a href="#" id="link-fresh" data-i18n="resume_link">Opnieuw beginnen</a></p>
-        <p class="tribute"><span class="tribute__heart" aria-hidden="true">♥</span> <span data-i18n="tribute">Gemaakt als eerbetoon aan mijn oom Will</span></p>
-        <p class="feedback" data-feedback><!-- feedback invite injected by JS --></p>
       </div>
     </section>
 
@@ -415,7 +415,7 @@ body{
           <h2 data-i18n="prev_title">Je TalkCard</h2>
           <span class="spacer"></span>
           <button class="btn btn--ghost" id="btn-edit" data-i18n="edit">Aanpassen</button>
-          <button class="btn btn--subtle" id="btn-print" data-i18n="print">Printen</button>
+          <button class="btn btn--ghost" id="btn-print" data-i18n="print">Printen</button>
           <button class="btn btn--primary" id="btn-download" data-i18n="download">Download als afbeelding</button>
         </div>
         <p class="preview__hint" data-i18n-html="prev_hint">Tip: gebruik <b>Download als afbeelding</b> voor een scherpe versie in hoge resolutie (groter dan je scherm). Of gebruik <b>Printen</b> om op te slaan als PDF.</p>
@@ -427,6 +427,11 @@ body{
     </section>
 
   </main>
+
+  <footer class="app__foot">
+    <p class="tribute"><span class="tribute__heart" aria-hidden="true">♥</span> <span data-i18n="tribute">Gemaakt als eerbetoon aan mijn oom Will</span></p>
+    <p class="feedback" data-feedback><!-- feedback invite injected by JS --></p>
+  </footer>
 </div>
 
 <!-- filled with a single high-res image of the card just before printing -->
