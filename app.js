@@ -13,7 +13,7 @@
 
   /* -------- where the QR code points (change this later to the
      statically hosted URL of this tool) -------- */
-  var QR_TARGET = "https://www.google.com";
+  var QR_TARGET = "https://rderks88.github.io/talk-card/";
 
   var STORAGE_KEY = "praatkaart_v1";
   var LANGS = ["nl", "en", "de", "fr"];
@@ -69,7 +69,7 @@
       back: "Vorige", skip: "Overslaan", next: "Volgende", viewcard: "Bekijk kaart",
       example_label: "Voorbeeld:",
       date_shows_as: "Wordt op de kaart getoond als:",
-      autosave: "Je antwoorden worden automatisch op dit apparaat bewaard.",
+      autosave: "Je antwoorden worden automatisch op dit apparaat bewaard (en nergens anders).",
       photo_click: "Klik om een foto te kiezen",
       photo_drag: "of sleep een foto hierheen — JPG of PNG",
       photo_remove: "Foto verwijderen",
@@ -132,7 +132,7 @@
       back: "Back", skip: "Skip", next: "Next", viewcard: "View card",
       example_label: "Example:",
       date_shows_as: "Shown on the card as:",
-      autosave: "Your answers are saved automatically on this device.",
+      autosave: "Your answers are saved automatically on this device (and nowhere else).",
       photo_click: "Click to choose a photo",
       photo_drag: "or drag a photo here — JPG or PNG",
       photo_remove: "Remove photo",
@@ -195,7 +195,7 @@
       back: "Zurück", skip: "Überspringen", next: "Weiter", viewcard: "Karte ansehen",
       example_label: "Beispiel:",
       date_shows_as: "Wird auf der Karte angezeigt als:",
-      autosave: "Ihre Antworten werden automatisch auf diesem Gerät gespeichert.",
+      autosave: "Ihre Antworten werden automatisch auf diesem Gerät gespeichert (und nirgendwo sonst).",
       photo_click: "Klicken, um ein Foto zu wählen",
       photo_drag: "oder ziehen Sie ein Foto hierher — JPG oder PNG",
       photo_remove: "Foto entfernen",
@@ -258,7 +258,7 @@
       back: "Précédent", skip: "Passer", next: "Suivant", viewcard: "Voir la carte",
       example_label: "Exemple :",
       date_shows_as: "Affiché sur la fiche comme :",
-      autosave: "Vos réponses sont enregistrées automatiquement sur cet appareil.",
+      autosave: "Vos réponses sont enregistrées automatiquement sur cet appareil (et nulle part ailleurs).",
       photo_click: "Cliquez pour choisir une photo",
       photo_drag: "ou glissez une photo ici — JPG ou PNG",
       photo_remove: "Supprimer la photo",
