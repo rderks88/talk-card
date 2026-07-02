@@ -1,6 +1,6 @@
 /* ============================================================
    TalkCard — vanilla JS app logic
-   - 4 languages (NL / EN / DE / FR)
+   - 5 languages (NL / EN / DE / FR / ES)
    - Step-by-step wizard (each step can be skipped)
    - Custom free fields at the end (own question + answer)
    - Photo upload (downscaled + stored locally)
@@ -16,7 +16,7 @@
   var QR_TARGET = "https://rderks88.github.io/talk-card/";
 
   var STORAGE_KEY = "praatkaart_v1";
-  var LANGS = ["nl", "en", "de", "fr"];
+  var LANGS = ["nl", "en", "de", "fr", "es"];
 
   /* ---------- Wizard structure (order + input type) ----------
      The visible text for every step lives in I18N[lang].steps[id]. */
@@ -341,6 +341,79 @@
         education: { title: "FORMATION", q: "Quelles études ou écoles ?", hint: "Études et formation.", placeholder: "p. ex. l'école communale de Quimper" },
         living: { title: "DOMICILE", q: "Où habite-t-il/elle ?", hint: "Adresse ou ville.", placeholder: "p. ex. 5 rue de l'Église, Quimper" }
       }
+    },
+
+    es: {
+      htmlTitle: "TalkCard — una tarjeta de conversación para tu ser querido",
+      brand_sub: "Una tarjeta de ayuda para conversaciones cálidas",
+      intro_title: "Crea una TalkCard personal",
+      intro_lead: "Una tarjeta de resumen con las cosas más importantes sobre tu ser querido, para que cuidadores, familia y visitantes puedan mantener más fácilmente una conversación cálida y con sentido con alguien que vive con demencia o alzhéimer.",
+      tribute: "Inspirado por mi tío Will",
+      feedback: "¿Tienes comentarios para mejorar esto para otros? Escríbeme a {email}.",
+      thanks_title: "Gracias",
+      thanks_body: "Acabas de hacer el día de alguien un poco más fácil. Si conoces a otras personas que cuidan de un ser querido, comparte TalkCard para que también puedan crear una.",
+      thanks_share: "Compartir TalkCard",
+      thanks_copy: "Copiar enlace",
+      thanks_close: "Cerrar",
+      share_text: "Crea una tarjeta de conversación gratuita para un ser querido que vive con demencia.",
+      copied: "¡Enlace copiado!",
+      intro_s1_t: "Responde algunas preguntas",
+      intro_s1_d: "Nombre, pareja, hijos, aficiones, trabajo… Simplemente omite las preguntas que no encajen.",
+      intro_s2_t: "Añade una foto",
+      intro_s2_d: "Una foto clara y alegre de tu ser querido.",
+      intro_s3_t: "Descarga e imprime la tarjeta",
+      intro_s3_d: "Obtendrás una tarjeta en alta resolución para imprimir o compartir.",
+      start: "Empezar",
+      resume_text: "Hemos guardado tus respuestas anteriores.",
+      resume_link: "Empezar de nuevo",
+      step_word: "Paso",
+      back: "Atrás", skip: "Omitir", next: "Siguiente", viewcard: "Ver tarjeta",
+      example_label: "Ejemplo:",
+      date_shows_as: "Se muestra en la tarjeta como:",
+      date_day: "Día", date_month: "Mes", date_year: "Año",
+      autosave: "Tus respuestas se guardan automáticamente en este dispositivo (y en ningún otro lugar).",
+      photo_click: "Haz clic para elegir una foto",
+      photo_drag: "o arrastra una foto aquí — JPG o PNG",
+      photo_remove: "Quitar foto",
+      photo_invalid: "Elige una imagen (JPG o PNG).",
+      custom_add: "+ Añadir tema",
+      custom_title_ph: "Título (p. ej. MASCOTA)",
+      custom_text_ph: "Texto que aparecerá en la tarjeta",
+      custom_remove: "Quitar",
+      custom_empty: "Aún no hay temas propios. Haz clic en «Añadir tema».",
+      prev_title: "Tu TalkCard",
+      edit: "Editar", print: "Imprimir", download: "Descargar como imagen",
+      prev_hint: "Consejo: usa <b>Descargar como imagen</b> para una versión nítida en alta resolución (más grande que tu pantalla). O usa <b>Imprimir</b> para guardar como PDF.",
+      reorder_title: "Orden de las tarjetas",
+      reorder_hint: "Arrastra las tarjetas en la hoja para cambiar el orden.",
+      reorder_list_label: "¿Prefieres una lista? (útil en tablet)",
+      reorder_up: "Subir", reorder_down: "Bajar",
+      busy: "Trabajando…",
+      export_fail: "La descarga no se inició automáticamente. Usa el botón «Imprimir» y elige «Guardar como PDF», o haz una captura de pantalla de la tarjeta.",
+      sheet_title: "SOBRE {name} en breve",
+      sheet_title_noname: "esta persona",
+      placeholder_name: "Nombre",
+      foot: "<b>TalkCard</b> — una herramienta para conversaciones cálidas y con sentido.",
+      qr_caption: "Escanea para crear tu propia TalkCard",
+      steps: {
+        name: { q: "¿Para quién es esta tarjeta?", hint: "El nombre de tu ser querido. Aparece en grande junto a la foto.", placeholder: "p. ej. Carmen", example: "Carmen" },
+        birth: { q: "Fecha de nacimiento", hint: "Elige la fecha de nacimiento en el calendario." },
+        photo: { q: "Añade una foto", hint: "Una foto clara y alegre del rostro funciona mejor." },
+        custom: { q: "Añade tus propios temas", hint: "¿Falta algo? Añade tu propia pregunta y respuesta. Aparecerán como burbujas adicionales en la tarjeta." },
+        born: { title: "NACIÓ", q: "¿Dónde y en qué tipo de familia nació?", hint: "Lugar de nacimiento, la familia, el entorno.", placeholder: "…en Granada, en Andalucía. La mayor de una familia de agricultores con cinco hijos." },
+        partner: { title: "PAREJA", q: "¿Quién es la pareja?", hint: "El nombre de la pareja o del ser querido.", placeholder: "p. ej. Antonio" },
+        children: { title: "HIJOS", q: "¿Cómo se llaman los hijos?", hint: "Los nombres de los hijos.", placeholder: "p. ej. Marta, Pablo y Ana" },
+        siblings: { title: "HERMANOS", q: "¿Hermanos y hermanas?", hint: "Nombres de los hermanos y hermanas.", placeholder: "p. ej. Juan, Isabel y Miguel" },
+        visitors: { title: "VISITAS", q: "¿Quién viene de visita?", hint: "Familia y amigos que pasan a verle — útil poder nombrarlos.", placeholder: "p. ej. Antonio, los vecinos Rosa y Manuel, y las amigas del club de costura" },
+        enjoys: { title: "DISFRUTO DE…", q: "¿Qué disfruta?", hint: "Cosas que dan calma, alegría o una sonrisa.", placeholder: "p. ej. un café por la mañana, las coplas de siempre y sentarse en el patio" },
+        hobbies: { title: "AFICIONES", q: "¿Cuáles son las aficiones?", hint: "Actividades e intereses.", placeholder: "p. ej. la costura, los crucigramas y la jardinería" },
+        highlights: { title: "MOMENTOS ESPECIALES", q: "¿Cuáles son los momentos especiales de su vida?", hint: "Momentos bonitos, momentos de orgullo, acontecimientos especiales.", placeholder: "p. ej. su boda con Antonio, el nacimiento de los hijos y el viaje a Santiago" },
+        important: { title: "LO QUE ME IMPORTA", q: "¿Qué es importante para él/ella?", hint: "Lo que ayuda a sentirse a gusto.", placeholder: "p. ej. un ambiente tranquilo, una rutina fija y un café a las cuatro" },
+        annoying: { title: "LO QUE ME MOLESTA", q: "¿Qué le resulta desagradable?", hint: "Cosas que evitar, para que la conversación siga siendo agradable.", placeholder: "p. ej. los ruidos fuertes, las prisas y demasiada gente a la vez" },
+        work: { title: "TRABAJO", q: "¿En qué trabajó?", hint: "Profesión(es) y trayectoria.", placeholder: "p. ej. costurera, y más tarde ayudante en casa" },
+        education: { title: "ESTUDIOS", q: "¿Qué estudios o escuelas?", hint: "Estudios y formación.", placeholder: "p. ej. la escuela del pueblo en Granada" },
+        living: { title: "VIVE EN", q: "¿Dónde vive?", hint: "Dirección o localidad.", placeholder: "p. ej. Calle Mayor 12, Granada" }
+      }
     }
   };
 
@@ -437,7 +510,7 @@
     var d = new Date();
     return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
   }
-  var DATE_LOCALE = { nl: "nl", en: "en-GB", de: "de", fr: "fr" };
+  var DATE_LOCALE = { nl: "nl", en: "en-GB", de: "de", fr: "fr", es: "es" };
   // ISO "1953-07-08" -> localised long date ("8 juli 1953"); anything else
   // (e.g. legacy free-text) is returned unchanged.
   function formatBirth(v) {
