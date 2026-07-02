@@ -58,6 +58,13 @@
       intro_lead: "Een overzichtskaart met de belangrijkste dingen over je dierbare, zodat verzorgers, familie en bezoekers makkelijker een fijn, betekenisvol gesprek kunnen voeren met iemand met dementie of alzheimer.",
       tribute: "Gemaakt als eerbetoon aan mijn oom Will",
       feedback: "Heb je feedback om dit voor anderen te verbeteren? Mail me op {email}.",
+      thanks_title: "Bedankt ♥",
+      thanks_body: "Je hebt zojuist iemands dag een beetje fijner gemaakt. Ken je anderen die voor een dierbare zorgen? Deel TalkCard, zodat ook zij er een kunnen maken.",
+      thanks_share: "Deel TalkCard",
+      thanks_copy: "Kopieer link",
+      thanks_close: "Sluiten",
+      share_text: "Maak een gratis praatkaart voor je dierbare met dementie.",
+      copied: "Link gekopieerd!",
       intro_s1_t: "Beantwoord een paar vragen",
       intro_s1_d: "Naam, partner, kinderen, hobby's, werk… Vragen die niet passen sla je gewoon over.",
       intro_s2_t: "Voeg een foto toe",
@@ -123,6 +130,13 @@
       intro_lead: "An overview card with the most important things about your loved one, so carers, family and visitors can more easily have a warm, meaningful conversation with someone living with dementia or Alzheimer's.",
       tribute: "Built in tribute to my uncle Will",
       feedback: "If you have feedback to improve this for others, please email me at {email}.",
+      thanks_title: "Thank you ♥",
+      thanks_body: "You've just helped make someone's day a little easier. If you know others caring for a loved one, please consider sharing TalkCard so they can make one too.",
+      thanks_share: "Share TalkCard",
+      thanks_copy: "Copy link",
+      thanks_close: "Close",
+      share_text: "Make a free conversation card for a loved one living with dementia.",
+      copied: "Link copied!",
       intro_s1_t: "Answer a few questions",
       intro_s1_d: "Name, partner, children, hobbies, work… Just skip any question that doesn't fit.",
       intro_s2_t: "Add a photo",
@@ -188,6 +202,13 @@
       intro_lead: "Eine Übersichtskarte mit den wichtigsten Dingen über Ihren lieben Menschen, damit Pflegende, Familie und Besucher leichter ein schönes, bedeutungsvolles Gespräch mit jemandem mit Demenz oder Alzheimer führen können.",
       tribute: "Erstellt als Hommage an meinen Onkel Will",
       feedback: "Haben Sie Anregungen, um dies für andere zu verbessern? Schreiben Sie mir an {email}.",
+      thanks_title: "Danke ♥",
+      thanks_body: "Sie haben gerade jemandem den Tag ein wenig leichter gemacht. Falls Sie andere kennen, die einen lieben Menschen begleiten, teilen Sie TalkCard gern, damit auch sie eine erstellen können.",
+      thanks_share: "TalkCard teilen",
+      thanks_copy: "Link kopieren",
+      thanks_close: "Schließen",
+      share_text: "Erstellen Sie eine kostenlose Gesprächskarte für einen lieben Menschen mit Demenz.",
+      copied: "Link kopiert!",
       intro_s1_t: "Beantworten Sie ein paar Fragen",
       intro_s1_d: "Name, Partner, Kinder, Hobbys, Beruf… Fragen, die nicht passen, überspringen Sie einfach.",
       intro_s2_t: "Fügen Sie ein Foto hinzu",
@@ -253,6 +274,13 @@
       intro_lead: "Une carte de synthèse reprenant l'essentiel sur votre proche, pour que les aidants, la famille et les visiteurs puissent plus facilement avoir une conversation chaleureuse et riche de sens avec une personne atteinte de démence ou d'Alzheimer.",
       tribute: "Créé en hommage à mon oncle Will",
       feedback: "Vous avez des suggestions pour l'améliorer pour d'autres ? Écrivez-moi à {email}.",
+      thanks_title: "Merci ♥",
+      thanks_body: "Vous venez de rendre la journée de quelqu'un un peu plus douce. Si vous connaissez d'autres personnes qui accompagnent un proche, partagez TalkCard pour qu'elles puissent en créer une aussi.",
+      thanks_share: "Partager TalkCard",
+      thanks_copy: "Copier le lien",
+      thanks_close: "Fermer",
+      share_text: "Créez une carte de conversation gratuite pour un proche atteint de démence.",
+      copied: "Lien copié !",
       intro_s1_t: "Répondez à quelques questions",
       intro_s1_d: "Nom, partenaire, enfants, loisirs, travail… Passez simplement les questions qui ne conviennent pas.",
       intro_s2_t: "Ajoutez une photo",
@@ -957,6 +985,7 @@
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
         done();
+        openThanksModal();
       }, "image/png");
     }, fail);
   }
@@ -1085,6 +1114,37 @@
   }
 
   /* =========================================================
+     THANK-YOU / SHARE MODAL (shown after a download)
+     ========================================================= */
+  function openThanksModal() {
+    var m = document.getElementById("thanks-modal");
+    if (!m) return;
+    var share = document.getElementById("btn-share");
+    if (share) share.textContent = navigator.share ? t("thanks_share") : t("thanks_copy");
+    var copied = document.getElementById("thanks-copied");
+    if (copied) copied.hidden = true;
+    m.hidden = false;
+  }
+  function closeThanksModal() {
+    var m = document.getElementById("thanks-modal");
+    if (m) m.hidden = true;
+  }
+  // Shares the TOOL (not the user's card — that stays private) via the native
+  // share sheet, falling back to copying the link.
+  function shareTool() {
+    var url = QR_TARGET;
+    var copied = document.getElementById("thanks-copied");
+    function showCopied() { if (copied) { copied.textContent = t("copied"); copied.hidden = false; } }
+    if (navigator.share) {
+      navigator.share({ title: "TalkCard", text: t("share_text"), url: url }).catch(function () {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(showCopied).catch(function () { window.prompt(t("thanks_copy"), url); });
+    } else {
+      window.prompt(t("thanks_copy"), url);
+    }
+  }
+
+  /* =========================================================
      WIRE UP
      ========================================================= */
   function init() {
@@ -1121,6 +1181,13 @@
     $("#btn-edit").addEventListener("click", function () { show("screen-wizard"); renderStep(); });
     $("#btn-print").addEventListener("click", printCard);
     $("#btn-download").addEventListener("click", exportPNG);
+
+    // thank-you / share modal
+    $("#btn-share").addEventListener("click", shareTool);
+    $("#btn-thanks-close").addEventListener("click", closeThanksModal);
+    $("#btn-thanks-x").addEventListener("click", closeThanksModal);
+    $("#thanks-modal").addEventListener("click", function (e) { if (e.target.id === "thanks-modal") closeThanksModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeThanksModal(); });
 
     window.addEventListener("resize", function () {
       var scr = activeScreen();

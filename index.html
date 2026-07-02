@@ -9,6 +9,20 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<!-- Social share / link preview (Open Graph + Twitter Card) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="TalkCard" />
+<meta property="og:url" content="https://rderks88.github.io/talk-card/" />
+<meta property="og:title" content="TalkCard — conversation cards for loved ones with dementia" />
+<meta property="og:description" content="Make a free, printable one-page conversation card about someone living with dementia or Alzheimer's, so carers, family and visitors can have warmer conversations. Multilingual, works offline, and keeps everything on your device." />
+<meta property="og:image" content="https://rderks88.github.io/talk-card/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="TalkCard — Know someone in one page." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TalkCard — conversation cards for loved ones with dementia" />
+<meta name="twitter:description" content="Make a free, printable one-page conversation card about a loved one living with dementia. Multilingual, works offline, private." />
+<meta name="twitter:image" content="https://rderks88.github.io/talk-card/og-image.png" />
 <style id="appcss">
 /* ============================================================
    TalkCard — een hulpkaart voor mensen met dementie/alzheimer
@@ -325,6 +339,29 @@ body{
   .preview__hint{ padding:0 2px; }
 }
 
+/* ---------- thank-you / share modal ---------- */
+.modal-overlay{
+  position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(40,32,20,.45);
+}
+.modal-overlay[hidden]{ display:none; }
+.modal{
+  position:relative; background:#fff; border-radius:18px; padding:32px 26px 24px;
+  max-width:430px; width:100%; text-align:center; box-shadow:0 24px 64px rgba(40,30,15,.38);
+}
+.modal__x{
+  position:absolute; top:8px; right:12px; border:0; background:none; cursor:pointer;
+  font-size:26px; line-height:1; color:#a7a29a; padding:6px;
+}
+.modal__x:hover{ color:#6b7280; }
+.modal__heart{ font-size:46px; color:var(--orange); line-height:1; }
+.modal h3{ font-size:22px; margin:8px 0 10px; }
+.modal p{ color:#475260; font-size:15.5px; line-height:1.55; margin:0 0 22px; }
+.modal__actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.modal__actions .btn{ flex:0 1 auto; }
+.modal__copied{ color:var(--orange-dark); font-size:13.5px; font-weight:600; margin:14px 0 0 !important; }
+.modal__copied[hidden]{ display:none; }
+
 /* ---------- print: render the card as ONE image on a single A4 page ----------
    app.js fills #print-holder with a high-res <img> of the card. Printing an
    image (not the live masonry) means tiles are never sliced across page edges,
@@ -436,6 +473,21 @@ body{
 
 <!-- filled with a single high-res image of the card just before printing -->
 <div id="print-holder" aria-hidden="true"></div>
+
+<!-- shown after a download: thank-you + invitation to share -->
+<div class="modal-overlay" id="thanks-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="thanks-title">
+    <button class="modal__x" id="btn-thanks-x" type="button" aria-label="×">×</button>
+    <div class="modal__heart" aria-hidden="true">♥</div>
+    <h3 id="thanks-title" data-i18n="thanks_title">Bedankt ♥</h3>
+    <p data-i18n="thanks_body">Je hebt zojuist iemands dag een beetje fijner gemaakt. Ken je anderen die voor een dierbare zorgen? Deel TalkCard, zodat ook zij er een kunnen maken.</p>
+    <div class="modal__actions">
+      <button class="btn btn--primary" id="btn-share" type="button">Deel TalkCard</button>
+      <button class="btn btn--ghost" id="btn-thanks-close" type="button" data-i18n="thanks_close">Sluiten</button>
+    </div>
+    <p class="modal__copied" id="thanks-copied" hidden></p>
+  </div>
+</div>
 
 <script src="qrcode.js"></script>
 <script src="app.js"></script>
