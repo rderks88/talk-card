@@ -153,6 +153,19 @@ body{
 .field .ex{ margin-top:10px; font-size:13.5px; color:#8a8f97; }
 .field .ex b{ color:#6b7280; }
 
+/* date of birth: Day / Month / Year dropdowns (friendlier than a native
+   calendar when the birth date is 60+ years in the past) */
+.field .dob{ display:flex; gap:10px; }
+.field .dob select{
+  flex:1 1 0; min-width:0; font-family:inherit; font-size:17px; color:var(--ink);
+  border:1.5px solid #d8d2c7; border-radius:12px; padding:13px 12px; background:#fcfbf9;
+  cursor:pointer; transition:border-color .15s, box-shadow .15s;
+}
+.field .dob select.dob__month{ flex:1.6 1 0; }  /* month names need more room */
+.field .dob select:focus{
+  outline:none; border-color:var(--orange); box-shadow:0 0 0 4px rgba(224,122,63,.14); background:#fff;
+}
+
 /* photo upload */
 .uploader{
   border:2px dashed #cfc8bb; border-radius:16px; padding:26px; text-align:center;

@@ -78,6 +78,7 @@
       back: "Vorige", skip: "Overslaan", next: "Volgende", viewcard: "Bekijk kaart",
       example_label: "Voorbeeld:",
       date_shows_as: "Wordt op de kaart getoond als:",
+      date_day: "Dag", date_month: "Maand", date_year: "Jaar",
       autosave: "Je antwoorden worden automatisch op dit apparaat bewaard (en nergens anders).",
       photo_click: "Klik om een foto te kiezen",
       photo_drag: "of sleep een foto hierheen — JPG of PNG",
@@ -111,7 +112,7 @@
         partner: { title: "PARTNER", q: "Wie is de partner?", hint: "De naam van de partner of geliefde.", placeholder: "Bijv. Gerrit" },
         children: { title: "KINDEREN", q: "Hoe heten de kinderen?", hint: "De namen van de kinderen.", placeholder: "Bijv. Marijke, Pieter en Anne" },
         siblings: { title: "BROERS & ZUSSEN", q: "Broers en zussen?", hint: "Namen van broers en zussen.", placeholder: "Bijv. Klaas, Trijntje en Douwe" },
-        visitors: { title: "BEZOEKERS", q: "Wie komen er op bezoek?", hint: "Familie en vrienden die langskomen — fijn om bij naam te kunnen noemen.", placeholder: "Bijv. Gerrit, de buren Coby en Henk, en de vriendinnen van de koffieclub" },
+        visitors: { title: "BEZOEKERS", q: "Wie komen er op bezoek?", hint: "Familie en vrienden die langskomen — fijn om bij naam te kunnen noemen.", placeholder: "Bijv. Gerrit, de buren Nel en Herman, en de vriendinnen van de koffieclub" },
         enjoys: { title: "IK GENIET VAN…", q: "Waar geniet hij/zij van?", hint: "Dingen die rust, plezier of een glimlach geven.", placeholder: "Bijv. samen koffie drinken, breien en luisteren naar oude Nederlandse liedjes" },
         hobbies: { title: "HOBBY'S", q: "Wat zijn de hobby's?", hint: "Bezigheden en interesses.", placeholder: "Bijv. breien, tuinieren en puzzelen" },
         highlights: { title: "HOOGTEPUNTEN", q: "Wat zijn de hoogtepunten in zijn/haar leven?", hint: "Mooie momenten, trotse momenten, bijzondere gebeurtenissen.", placeholder: "Bijv. de trouwdag met Gerrit, de reis naar Canada en het gouden huwelijksfeest" },
@@ -150,6 +151,7 @@
       back: "Back", skip: "Skip", next: "Next", viewcard: "View card",
       example_label: "Example:",
       date_shows_as: "Shown on the card as:",
+      date_day: "Day", date_month: "Month", date_year: "Year",
       autosave: "Your answers are saved automatically on this device (and nowhere else).",
       photo_click: "Click to choose a photo",
       photo_drag: "or drag a photo here — JPG or PNG",
@@ -222,6 +224,7 @@
       back: "Zurück", skip: "Überspringen", next: "Weiter", viewcard: "Karte ansehen",
       example_label: "Beispiel:",
       date_shows_as: "Wird auf der Karte angezeigt als:",
+      date_day: "Tag", date_month: "Monat", date_year: "Jahr",
       autosave: "Ihre Antworten werden automatisch auf diesem Gerät gespeichert (und nirgendwo sonst).",
       photo_click: "Klicken, um ein Foto zu wählen",
       photo_drag: "oder ziehen Sie ein Foto hierher — JPG oder PNG",
@@ -294,6 +297,7 @@
       back: "Précédent", skip: "Passer", next: "Suivant", viewcard: "Voir la carte",
       example_label: "Exemple :",
       date_shows_as: "Affiché sur la fiche comme :",
+      date_day: "Jour", date_month: "Mois", date_year: "Année",
       autosave: "Vos réponses sont enregistrées automatiquement sur cet appareil (et nulle part ailleurs).",
       photo_click: "Cliquez pour choisir une photo",
       photo_drag: "ou glissez une photo ici — JPG ou PNG",
@@ -501,6 +505,73 @@
 
   function currentStep() { return STEP_DEFS[state.step]; }
 
+  /* ---------- date-of-birth field: Day / Month / Year dropdowns ----------
+     A native <input type=date> always opens on the current month, so entering
+     a birth date 60+ years ago means paging back hundreds of months. Three
+     dropdowns let the user jump straight to a year. The value is still stored
+     as ISO "YYYY-MM-DD" (only once day, month and year are all chosen), so
+     formatBirth() and buildSheet() keep working unchanged. */
+  var DATE_MIN_YEAR = 1900;
+  function monthName(m) {                 // 1-12 -> localised long month name
+    try {
+      return new Intl.DateTimeFormat(DATE_LOCALE[state.lang] || "nl", { month: "long" })
+        .format(new Date(2000, m - 1, 1));
+    } catch (e) { return String(m); }
+  }
+  function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }  // m = 1-12
+
+  function renderDateField(val) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(val);
+    var selY = m ? +m[1] : 0, selM = m ? +m[2] : 0, selD = m ? +m[3] : 0;
+    var nowY = new Date().getFullYear();
+    var dayMax = (selY && selM) ? daysInMonth(selY, selM) : 31;
+
+    function opt(v, label, sel) {
+      return '<option value="' + v + '"' + (sel ? " selected" : "") + ">" + esc(label) + "</option>";
+    }
+    var days = opt("", t("date_day"), false);
+    for (var d = 1; d <= dayMax; d++) days += opt(d, d, d === selD);
+    var months = opt("", t("date_month"), false);
+    for (var mo = 1; mo <= 12; mo++) months += opt(mo, monthName(mo), mo === selM);
+    var years = opt("", t("date_year"), false);
+    for (var y = nowY; y >= DATE_MIN_YEAR; y--) years += opt(y, y, y === selY);
+
+    var pv = val ? esc(t("date_shows_as")) + " <b>" + esc(formatBirth(val)) + "</b>" : "";
+    return '<div class="field"><div class="dob">' +
+      '<select id="dob-day" aria-label="' + esc(t("date_day")) + '">' + days + "</select>" +
+      '<select id="dob-month" class="dob__month" aria-label="' + esc(t("date_month")) + '">' + months + "</select>" +
+      '<select id="dob-year" aria-label="' + esc(t("date_year")) + '">' + years + "</select>" +
+      '</div><div class="ex" id="date-preview">' + pv + "</div></div>";
+  }
+
+  function wireDateField(id) {
+    var daySel = document.getElementById("dob-day");
+    var monSel = document.getElementById("dob-month");
+    var yrSel = document.getElementById("dob-year");
+    if (!daySel || !monSel || !yrSel) return;
+
+    function rebuildDays() {   // keep day options valid for the chosen month/year
+      var y = +yrSel.value, mo = +monSel.value;
+      var max = (y && mo) ? daysInMonth(y, mo) : 31;
+      var cur = +daySel.value;
+      var html = '<option value="">' + esc(t("date_day")) + "</option>";
+      for (var d = 1; d <= max; d++)
+        html += '<option value="' + d + '"' + (d === cur ? " selected" : "") + ">" + d + "</option>";
+      daySel.innerHTML = html;   // an out-of-range day (e.g. 31 -> Feb) resets to blank
+    }
+    function commit() {
+      var y = +yrSel.value, mo = +monSel.value, d = +daySel.value;
+      var iso = (y && mo && d) ? y + "-" + pad2(mo) + "-" + pad2(d) : "";
+      state.answers[id] = iso; save();
+      var pv = document.getElementById("date-preview");
+      if (pv) pv.innerHTML = iso ? esc(t("date_shows_as")) + " <b>" + esc(formatBirth(iso)) + "</b>" : "";
+    }
+    daySel.addEventListener("change", commit);
+    monSel.addEventListener("change", function () { rebuildDays(); commit(); });
+    yrSel.addEventListener("change", function () { rebuildDays(); commit(); });
+    yrSel.focus();   // the year is what users most need to set for an old birth date
+  }
+
   function renderStep() {
     var s = currentStep();
     var st = ts(s.id);
@@ -519,9 +590,7 @@
       html += renderCustomField();
     } else if (s.kind === "date") {
       var isoVal = /^\d{4}-\d{2}-\d{2}$/.test(val) ? val : "";
-      html += '<div class="field"><input type="date" id="answer" value="' + esc(isoVal) + '" min="1900-01-01" max="' + esc(todayISO()) + '">';
-      html += '<div class="ex" id="date-preview">' + (isoVal ? esc(t("date_shows_as")) + " <b>" + esc(formatBirth(isoVal)) + "</b>" : "") + "</div>";
-      html += "</div>";
+      html += renderDateField(isoVal);
     } else if (s.kind === "textarea") {
       html += '<div class="field"><textarea id="answer" placeholder="' + esc(st.placeholder || "") + '">' + esc(val) + "</textarea>";
       if (st.example) html += '<div class="ex"><b>' + esc(t("example_label")) + '</b> ' + esc(st.example) + "</div>";
@@ -542,16 +611,14 @@
       wirePhotoField();
     } else if (s.kind === "custom") {
       wireCustomField();
+    } else if (s.kind === "date") {
+      wireDateField(s.id);
     } else {
       var input = document.getElementById("answer");
       if (input) {
         input.focus();
         input.addEventListener("input", function () {
           state.answers[s.id] = input.value; save();
-          if (s.kind === "date") {
-            var pv = document.getElementById("date-preview");
-            if (pv) pv.innerHTML = input.value ? esc(t("date_shows_as")) + " <b>" + esc(formatBirth(input.value)) + "</b>" : "";
-          }
         });
         input.addEventListener("keydown", function (e) {
           if (s.kind === "text" && e.key === "Enter") { e.preventDefault(); goNext(); }
