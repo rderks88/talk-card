@@ -104,7 +104,7 @@
       foot: "<b>TalkCard</b> — een hulpmiddel voor fijne, betekenisvolle gesprekken.",
       qr_caption: "Scan om zelf een TalkCard te maken",
       steps: {
-        name: { q: "Voor wie maak je deze kaart?", hint: "De naam van je dierbare. Deze komt groot bij de foto te staan.", placeholder: "Bijv. Riet", example: "Riet" },
+        name: { q: "Voor wie maak je deze kaart?", hint: "De naam van je dierbare. Deze komt groot bij de foto te staan.", placeholder: "Bijv. Henriette", example: "Henriette" },
         birth: { q: "Geboortedatum", hint: "Kies de geboortedatum in de kalender." },
         photo: { q: "Voeg een foto toe", hint: "Een duidelijke, vrolijke foto van het gezicht werkt het best." },
         custom: { q: "Eigen onderwerpen toevoegen", hint: "Mis je iets? Voeg je eigen vraag en antwoord toe. Deze komen als extra wolkjes op de kaart." },
